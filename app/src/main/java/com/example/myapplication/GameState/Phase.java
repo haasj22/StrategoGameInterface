@@ -8,6 +8,7 @@ package com.example.myapplication.GameState;
 
 /**
  * External Citation
+ * Date Writing: 9 October 2019
  * Person Writing: John Haas
  * Problem: I did not know how to add an enum to a toString method
  *

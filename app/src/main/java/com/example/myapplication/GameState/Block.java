@@ -44,19 +44,36 @@ public class Block {
      * @param trueBlock the block that  contains the true data
      */
     public Block(Block trueBlock) {
+        if(trueBlock == null) {
+            this.blockType=null;
+            this.containedPiece = null;
+            this.isHighLighted = false;
+        }
         this.blockType=trueBlock.blockType;
-        this.containedPiece=new Piece(trueBlock.containedPiece);
+        if(trueBlock.containedPiece != null) {
+            this.containedPiece = new Piece(trueBlock.containedPiece);
+        } else {
+            this.containedPiece = null;
+        }
         this.isHighLighted=trueBlock.isHighLighted;
     }
 
     /**------------------------------------Getter Methods-----------------------------------------*/
 
+    public Tile getBlockType() { return blockType; }
     public Piece getContainedPiece() {
         return containedPiece;
     }
+    public boolean isHighLighted() { return isHighLighted; }
 
-    public boolean getIsHighLighted() {
-        return isHighLighted;
+    /**
+     * method that checks if a block is empty or not
+     *
+     * @return true if block contains a piece
+     *         false if block is empty
+     */
+    public boolean containsPiece() {
+        return !(this.containedPiece == null);
     }
 
     /**-----------------------------------Setter Methods------------------------------------------*/
@@ -72,6 +89,27 @@ public class Block {
     /**-----------------------------------Generic Methods----------------------------------------*/
 
     /**
+     * method that checks if a given block is highlightable
+     *
+     * @param currentTeamsTurn the team whos turn it currently is
+     * @return true if block is highlightable
+     *         false if block is not highlightable
+     */
+    public boolean isBlockHighlightable(Team currentTeamsTurn) {
+        //pieces can't walk on water. Jesus rank not implemented yet
+        if(this.getBlockType() == Tile.WATER) {
+            return false;
+        }
+        //pieces can't move onto fellow teammates squares
+        if (this.containsPiece() &&
+                this.getContainedPiece().getPieceTeam() == currentTeamsTurn){
+            return false;
+        }
+        //pieces can always move elsewhere
+        return true;
+    }
+
+    /**
      * to String method for objects of the Block class
      *
      * @return toReturn: String that will
@@ -80,10 +118,10 @@ public class Block {
     public String toString() {
         String toReturn="Block Info\n";
         toReturn += "[Block Type: " + blockType + "]\n";
-        toReturn += "----------------------";
-        toReturn += containedPiece; //prints the contained piece
-        toReturn += "----------------------";
-        toReturn += "Is Piece Highlighted: " + isHighLighted;
+        toReturn += "----------------------\n";
+        toReturn += containedPiece + "\n"; //prints the contained piece
+        toReturn += "----------------------\n";
+        toReturn += "Is Piece Highlighted: " + isHighLighted + "\n\n";
 
         return toReturn;
     }
