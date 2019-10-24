@@ -417,7 +417,6 @@ public class StrategoGameState {
      *         false if the given information is unusable
      */
     public boolean tapOnSquare(int row, int col) {
-        Log.i("msg", "Tapped");
         //makes sure the coordinates are valid
         if(col < 0 || col > COLMAX) {
             return false;
@@ -445,7 +444,6 @@ public class StrategoGameState {
             return true;
         } else if (board[row][col].containsPiece() &&
                 board[row][col].getContainedPiece().getPieceTeam() == currentTeamsTurn) {
-            Log.i("msg", "Tapped3");
             //does not highlight movable spots for bomb and flag
             if(board[row][col].getContainedPiece().getPieceRank() == Rank.BOMB ||
                     board[row][col].getContainedPiece().getPieceRank() == Rank.FLAG) {
@@ -456,7 +454,6 @@ public class StrategoGameState {
                 return true;
                 //procedure for highlighting scouts movable squares
             } else if(board[row][col].getContainedPiece().getPieceRank() == Rank.NINE) {
-                Log.i("msg", "scout");
                 setScoutsHighlightedBlocks(row, col);
                 lastTappedRow=row;
                 lastTappedCol=col;
@@ -464,14 +461,12 @@ public class StrategoGameState {
                 //procedure for highlighting normal units movable squares
             } else {
                 setHighLightedBlocks(row, col);
-                Log.i("msg", "newUnit");
                 lastTappedRow=row;
                 lastTappedCol=col;
                 return true;
             }
             //removes highlights if tapping on an empty or enemy square
         } else {
-            Log.i("msg", "TappedNotGood");
             removeHighlightedBlocks();
             lastTappedRow = -1;
             lastTappedCol = -1;
@@ -594,7 +589,6 @@ public class StrategoGameState {
      * @return true once pieces have been moved accordingly
      */
     private boolean spyAttacks(int row1, int col1, int row2, int col2) {
-        Log.i("msg", "spattack");
         //if spy attacks Marshall, removes marshall from board
         if(board[row2][col2].getContainedPiece().getPieceRank() == Rank.ONE) {
             removePieceFromPlayer(getEnemyTeam(), board[row2][col2].getContainedPiece().getPieceRank());
@@ -641,23 +635,6 @@ public class StrategoGameState {
             redTeamHasFlag = false;
         }
         return true;
-    }
-
-    /**
-     * isGameOver method
-     * checks if the game is over
-     * @return true if either player has lost their flags
-     *         false if both players have their flags
-     */
-    private int isGameOver() {
-        //if either team has lost their flag return true
-        if(redTeamHasFlag == false) {
-            return -1;
-        } else if (blueTeamHasFlag == false) {
-            return 1;
-        }
-        //else return false
-        return 0;
     }
 
     /**
@@ -779,12 +756,9 @@ public class StrategoGameState {
      */
     private boolean removePieceFromPlayer(Team targetTeam, Rank targetRank) {
         //removes piece from the given team's arraylist of pieces
-        Log.i("msg", "remove");
         if(targetTeam == Team.RED_TEAM) {
-            Log.i("msg", "removeRed");
             redTeamPieces.remove(targetRank);
         } else {
-            Log.i("msg", "removeBlue " + targetRank);
             blueTeamPieces.remove(targetRank);
         }
         return true;
@@ -836,8 +810,24 @@ public class StrategoGameState {
             blueTeamHasFlag = false;
         }
         //runs the procedure for ending the game
-        isGameOver();
         return true;
+    }
+
+    /**
+     * isGameOver method
+     * checks if the game is over
+     * @return true if either player has lost their flags
+     *         false if both players have their flags
+     */
+    public int isGameOver() {
+        //if either team has lost their flag return true
+        if(redTeamHasFlag == false) {
+            return -1;
+        } else if (blueTeamHasFlag == false) {
+            return 1;
+        }
+        //else return false
+        return 0;
     }
 
     /**
