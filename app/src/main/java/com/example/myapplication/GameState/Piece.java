@@ -62,6 +62,7 @@ public class Piece {
      * @return toReturn: the data of a piece as a String
      */
     public String toString() {
+        //prints all the piece variables
         String toReturn = "Piece Information\n";
         toReturn += "[Pieces Team: " + pieceTeam + "]\n";
         toReturn += "[Pieces Rank: " + pieceRank + "]\n";

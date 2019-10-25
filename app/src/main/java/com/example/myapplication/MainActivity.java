@@ -198,6 +198,10 @@ public class MainActivity extends AppCompatActivity {
                 thirdInstance=new StrategoGameState();
                 fourthInstance=new StrategoGameState(thirdInstance);
                 changingTextView.append(fourthInstance.toString());
+
+                //shows that forfeit game works
+                fourthInstance.forfeitGame();
+                changingTextView.append(fourthInstance.toString());
         }
 
 

@@ -119,7 +119,7 @@ public class Block {
         String toReturn="Block Info\n";
         toReturn += "[Block Type: " + blockType + "]\n";
         toReturn += "----------------------\n";
-        toReturn += containedPiece + "\n"; //prints the contained piece
+        toReturn += containedPiece + "\n"; //calls piece toString method
         toReturn += "----------------------\n";
         toReturn += "Is Piece Highlighted: " + isHighLighted + "\n\n";
 
